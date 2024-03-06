@@ -1,0 +1,20 @@
+{% extends '_base.html' %}
+{% block container %}
+    <center>
+        <h1>Cadastro de Serviços</h1>
+        <form action="/servicos" enctype="multipart/form-data" method="post" autocomplet="off">
+            <div>
+                <input type="text" name="servico" placeholder="Informe o serviço" required autofocus/>
+            </div>
+            </br>
+            <div>
+                <input name="arquivo" type="file">
+            </div>
+            </br>
+            <button type="submit">Cadastrar</button>
+        </form>
+        {% if imagem %}
+            <img src="{{ url_for('media', path=imagem) }}"/>
+        {% endif %}
+    </center>
+{% endblock %}

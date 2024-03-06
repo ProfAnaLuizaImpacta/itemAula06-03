@@ -1,0 +1,100 @@
+Olá pessoal,
+
+Pouco a pouco estamos aprendendo os conceitos em como podemos trabalhar com FastAPI para websites.
+
+Até então, já sabemos:
+
+- Como fazer com que o FastAPI nos retorne conteúdo HTML, ao invés de JSON.
+- Como fazer uso de templates html;
+- Como fazer uso de templates compartilhados;
+- Como fazer uso de arquivos estáticos (css, js, imagens);
+
+
+Uma coisa que é muito importante também são os formulários.
+
+Fazendo uso de formulários, abre-se uma gama muito grande de possibilidades:
+
+- Com formulários, podemos cadastrar e gerenciar dados em um banco de dados*;
+* Inclusive já aprendemos a trabalhar com FastAPI / SQL Alcheme e bancos de dados.
+- Com formulários, podemos fazer controle de acesso à uma aplicação (login);
+-------------------------------------------
+
+# Métodos HTTP - GET / POST / PUT / DELETE
+
+Como você deve ter notado, até o momento só usamos o método HTTP GET
+no nosso sistema.
+
+@app.get()
+
+Só para relembrar, geralmente em toda aplicação web fazemos uso dos 4 principais
+verbos HTTP, sendo eles GET, POST, PUT e DELETE
+
+Sendo que usamos o GET para pegar informações (por exemplo carregar uma página web) de um recurso existente;
+Usamos o POST para postar informações (por exemplo enviar informações de um formulário) e assim criar um novo recurso;
+Usamos o PUT para atualizar um recurso existente;
+Usamos o DELETE para excluir um recurso existente;
+
+--------------------------------------------------------
+
+# Página de cadastro de servicos
+
+	OBS: Para trabalhar com formulários precisamos instalar
+
+	pip install python-multipart
+
+	pip freeze > requirements.txt
+
+a) No template servicos.html adicione o formulário:
+
+ <form action="/servicos" method="post" autocomplete="off">
+    <input type="text" name="servico" placeholder="Informe o serviço" required autofocus/>
+    <button type="submit">Cadastrar</button>
+ </form>
+
+ Veja que é um formulário bastante simples, tendo apenas um campo de entrada
+ de texto chamado 'servico'. Este formulário envia um POST para o endpoint /servicos
+
+b) Crie uma função post para o formulário
+
+@app.post('/servicos')
+async def cad_servico(request: Request):
+    context = {
+        'request': request
+    }
+
+    return templates.TemplateResponse('servicos.html', context=context)
+
+
+Reinicie o servicos, teste a página...
+
+
+Ao digitar um nome de um serviço e clicar no botão para cadastrar, aparenemente
+nada acontece...
+
+----------------------------
+O objeto 'request'
+
+Note que deste o princípio estamos fazendo uso do objeto 'request' nas nossas funções.
+
+Através deste objeto, dentre vários atributos e métodos disponíveis, está o form
+
+# Recuperando o formulário
+form = await request.form()
+
+# Pegando o valor do input chamado 'servico'
+servico: str = form.get('servico')
+
+# Imprimindo o valor
+print(f"Serviço: {servico}")
+
+-------------------------------
+Agora, ao executar a aplicação, o valor informado no campo é impresso no nosso console.
+
+Veja o quão é simples fazer uso dos recursos do FastAPI.
+
+Desta forma, você já é capaz de receber dados via formulário, instanciar um objeto
+e salvar em banco de dados. Tudo isso de forma assíncrona.
+
+Na próxima aula aprenderemos como fazer upload assíncrono de arquivos.
+
+Abraço!
